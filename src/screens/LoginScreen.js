@@ -3,29 +3,80 @@ import {
   StyleSheet,
   View,
   TextInput,
-  Button,
   Text,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 
 export function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
+  const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    // Aqui você pode adicionar a lógica de autenticação
-    console.log("Login com:", email, password);
+    if (user === 'larissa' && password === '123') {
+      setUser('');
+      setPassword('');
+      navigation.navigate('Navigation')
+    } else if (user === 'larissa' && password !== '123') { 
+      Alert.alert(
+        "Ooops",
+        "A senha está incorreta, digite novamente.",
+        [
+          {
+            text: "Ok",
+            onPress: () => {},
+            style: 'default'
+          },
+        ]
+      )
+      setPassword('');
+    } else if (user === '' && password === '') { 
+      Alert.alert(
+        "Eita!",
+        "Precisamos identificar um usuário. Por favor informa um ou pode criar agora caso ainda não tenha, é super rápido.!",
+        [
+          {
+            text: "Voltar",
+            onPress: () => {},
+            style: 'default'
+          },
+          {
+            text: "Criar Usuário",
+            onPress: () => navigation.navigate('SignUp')
+          }
+        ]
+      )
+      setPassword('');
+    } else {
+      Alert.alert(
+        "Ooops",
+        "Você ainda não tem esse usuário cadastrado no Listou, cadastre agora e aproveite todos os benefícios do seu Listou",
+        [
+          {
+            text: "Cancelar",
+            onPress: () => {},
+            style: 'cancel'
+          },
+          {
+            text: "Criar Usuário",
+            onPress: () => navigation.navigate('SignUp')
+          }
+        ]
+      )
+      setUser('');
+      setPassword('');
+    }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
-      <Text style={styles.label}>E-mail</Text>
+      <Text style={styles.label}>Usuário</Text>
       <TextInput
         style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
+        value={user}
+        onChangeText={setUser}
+        keyboardType="name-phone-pad"
         autoCapitalize="none"
       />
       <Text style={styles.label}>Senha</Text>
@@ -37,14 +88,12 @@ export function LoginScreen({ navigation }) {
       />
       <TouchableOpacity
         style={styles.button}
-        onPress={() => {
-          handleLogin;
-        }}
+        onPress={handleLogin}
       >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
       <View style={styles.footer}>
-        <TouchableOpacity onPress={() => console.log("Esqueci minha senha")}>
+        <TouchableOpacity onPress={() => navigation.navigate('Recover')}>
           <Text style={styles.footerText}>Esqueci minha senha</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
@@ -59,6 +108,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    paddingTop: 60,
     backgroundColor: "#F5F9FF",
   },
   title: {
@@ -66,7 +116,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 60,
     marginTop: 10,
-    textAlign: "left",
+    textAlign: "center",
     color: "#191D88",
   },
   label: {
