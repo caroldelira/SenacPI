@@ -3,36 +3,41 @@ import {
   StyleSheet,
   View,
   TextInput,
-  Button,
+  Alert,
   Text,
   TouchableOpacity,
   ScrollView,
-  Alert,
 } from "react-native";
 
-export function SignUpScreen({ navigation }) {
-  const [name, setName] = useState("");
+export function RecoverPassword({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSignUp = () => {
-    if (email === '' || name === '' || password === '' || confirmPassword === '') { 
+  const handleRecovered = () => {
+    if (email === '') { 
       Alert.alert(
-        "Opa Atenção!",
-        "Precisamos que preencha todos os campos!",
+        "Eita!",
+        "Precisamos que informe teu e-mail. Caso ainda não tenha um e-mail cadastrado no Listou, pode criar um Usuário agora, é super rápido!",
         [
           {
-            text: "Ok",
+            text: "Voltar",
             onPress: () => {},
             style: 'default'
           },
+          {
+            text: "Criar Usuário",
+            onPress: () => navigation.navigate('SignUp')
+          }
         ]
       )
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
     } else {
      Alert.alert(
         "Agora sim!!!",
-        "Conta criada com Sucesso!!! Pode curtir o Listou.",
+        "Conta recuperada com Sucesso!!! Pode curtir o Listou.",
         [
           {
             text: "Ok",
@@ -40,7 +45,6 @@ export function SignUpScreen({ navigation }) {
           },
         ]
       )
-      setName('');
       setEmail('');
       setPassword('');
       setConfirmPassword('');
@@ -50,12 +54,9 @@ export function SignUpScreen({ navigation }) {
   return (
     <ScrollView style={styles.containerScroll}>
       <View style={styles.container}>
-        <Text style={styles.title}>Criar nova conta</Text>
+        <Text style={styles.title}>Recuperar conta</Text>
 
-        <Text style={styles.label}>Qual será seu nome de Usuário?</Text>
-        <TextInput style={styles.input} value={name} onChangeText={setName} />
-
-        <Text style={styles.label}>Seu e-mail</Text>
+        <Text style={styles.label}>Informe seu e-mail cadastrado na plataforma</Text>
         <TextInput
           style={styles.input}
           value={email}
@@ -64,7 +65,7 @@ export function SignUpScreen({ navigation }) {
           autoCapitalize="none"
         />
 
-        <Text style={styles.label}>Escolha uma senha</Text>
+        <Text style={styles.label}>Informe uma nova senha</Text>
         <TextInput
           style={styles.input}
           value={password}
@@ -88,9 +89,9 @@ export function SignUpScreen({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, styles.buttonPrimary]}
-            onPress={handleSignUp}
+            onPress={handleRecovered}
           >
-            <Text style={styles.buttonText}>Próximo</Text>
+            <Text style={styles.buttonText}>Resgatar</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -22,7 +22,7 @@ export function SuccessScreen({ navigation }) {
       <View style={styles.containerButton}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => navigation.navigate("Navigation")}
         >
           <Text style={styles.buttonText}>Próximo</Text>
         </TouchableOpacity>
