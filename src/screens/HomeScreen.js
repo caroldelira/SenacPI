@@ -73,11 +73,11 @@ export function HomeScreen({ navigation }) {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => console.log('Ir para criar uma nova lista')}
+        onPress={() => navigation.navigate("ListScreen")}
       >
         <Text style={styles.buttonText}>+ Lista nova</Text>
       </TouchableOpacity>
-      {/* Adicionar a barra de menu inferior aqui */}
+  
     </View>
   );
 }

@@ -8,6 +8,7 @@ import { LoginScreen } from './src/screens/LoginScreen';
 import { SuccessScreen } from './src/screens/SuccessScreen';
 import { BottomTabNavigator } from './src/navigation/BottomTabNavigator';
 import { RecoverPassword } from './src/screens/RecoverPassword';
+import { CreateListScreen } from './src/screens/CreateListScreen';
 
 const Stack = createStackNavigator();
 
@@ -48,6 +49,14 @@ export default function App() {
         <Stack.Screen
           name="Navigation"
           component={BottomTabNavigator}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="ListScreen"
+          component={CreateListScreen}
           options={{
             headerShown: false,
           }}
