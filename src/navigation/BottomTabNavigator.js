@@ -66,7 +66,7 @@ export function BottomTabNavigator() {
           )
         }}
       />
-      {/* Adicionar as outras telas e ícones aqui */}
+
     </Tab.Navigator>
   )
 }
