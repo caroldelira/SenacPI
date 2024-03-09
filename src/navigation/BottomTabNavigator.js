@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import { HomeScreen } from '../screens/HomeScreen';
+import { CalculatorScreen } from '../screens/CalculatorScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -19,6 +20,7 @@ export function BottomTabNavigator() {
           height: 65,
           paddingBottom: 5,
           paddingTop: 10,
+          paddingHorizontal: 4,
         },
       }}
     >
@@ -27,6 +29,7 @@ export function BottomTabNavigator() {
         component={HomeScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
           tabBarLabel: 'Início',
           tabBarIcon: ({ focused }) => (
             <Icon name="home-outline" size={26} color={focused ? "#C2F970" : "#ffffff"} />
@@ -35,9 +38,10 @@ export function BottomTabNavigator() {
       />
       <Tab.Screen
         name="Calc"
-        component={HomeScreen}
+        component={CalculatorScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
           tabBarLabel: 'Calculadora',
           tabBarIcon: ({ focused }) => (
             <Icon name="calculator-outline" size={26} color={focused ? "#C2F970" : "#ffffff"} />
@@ -49,6 +53,7 @@ export function BottomTabNavigator() {
         component={HomeScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
           tabBarLabel: 'QRCode',
           tabBarIcon: ({ focused }) => (
             <Icon name="qr-code-outline" size={26} color={focused ? "#C2F970" : "#ffffff"} />
@@ -60,6 +65,7 @@ export function BottomTabNavigator() {
         component={HomeScreen}
         options={{
           headerShown: false,
+          unmountOnBlur: true,
           tabBarLabel: 'Relatórios',
           tabBarIcon: ({ focused }) => (
             <Icon name="bar-chart-outline" size={26} color={focused ? "#C2F970" : "#ffffff"} />

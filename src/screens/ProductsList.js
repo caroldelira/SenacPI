@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 
 import { CustomHeader } from '../components/CustomHeader';
 import { ProductCard } from '../components/ProductCard';
+import { CustomTabBar } from '../navigation/CustomTabBar';
 
 const productsData = [
   { id: '1', name: 'Arroz de alguma marca outra marca', price: 'R$4,00', quantity: 3, totalPrice: 'R$12,00' },
@@ -18,44 +19,48 @@ export function ProductsList({ navigation, route }) {
   const { name } = route.params;
 
   return (
-    <View style={styles.container}>
+    <>
+      <View style={styles.container}>
     
-      <CustomHeader back={() => navigation.goBack()} />
+        <CustomHeader back={() => navigation.goBack()} />
 
-      <Text style={styles.title}>{name}</Text>
+        <Text style={styles.title}>{name}</Text>
 
-      <View style={styles.containerButton}>
-        <TouchableOpacity style={styles.button} onPress={() => console.log('Todos os produtos')}>
-            <Text style={styles.buttonText}>Todos</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => console.log('Produtos faltantes')}>
-            <Text style={styles.buttonText}>Faltantes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => console.log('Produtos marcados')}>
-            <Text style={styles.buttonText}>Carrinho</Text>
+        <View style={styles.containerButton}>
+          <TouchableOpacity style={styles.button} onPress={() => console.log('Todos os produtos')}>
+              <Text style={styles.buttonText}>Todos</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => console.log('Produtos faltantes')}>
+              <Text style={styles.buttonText}>Faltantes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => console.log('Produtos marcados')}>
+              <Text style={styles.buttonText}>Carrinho</Text>
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.subtitleAmount}>Valor dos itens R$ 893,46</Text>
+        <Text style={styles.subtitleCardValue}>Valor dos itens no carrinho R$ 893,46</Text>
+        
+        <ScrollView style={styles.scrollView}>
+        {productsData.map(item => (
+          <ProductCard
+            key={item.id}
+            id={item.id}
+            name={item.name}
+            price={item.price}
+            quantity={item.quantity}
+            amount={item.totalPrice}
+          />
+        ))}
+        
+        </ScrollView> 
+
+        <TouchableOpacity style={styles.addButton}>
+          <Text style={styles.buttonText}>+ Adicionar produto</Text>
         </TouchableOpacity>
       </View>
-
-      <Text style={styles.subtitleAmount}>Valor dos itens R$ 893,46</Text>
-      <Text style={styles.subtitleCardValue}>Valor dos itens no carrinho R$ 893,46</Text>
-      
-      <ScrollView style={styles.scrollView}>
-      {productsData.map(item => (
-        <ProductCard
-          key={item.id}
-          id={item.id}
-          name={item.name}
-          price={item.price}
-          quantity={item.quantity}
-          amount={item.totalPrice}
-        />
-      ))}
-      
-      </ScrollView> 
-      <TouchableOpacity style={styles.addButton}>
-        <Text style={styles.buttonText}>+ Adicionar produto</Text>
-      </TouchableOpacity>
-    </View>
+     <CustomTabBar navigation={navigation} />
+    </>
   );
 }
 
