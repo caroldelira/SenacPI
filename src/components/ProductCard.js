@@ -23,11 +23,10 @@ export function ProductCard({ name, price, quantity, amount }) {
         </View>
       
         <View style={styles.contentCard}>
-          <Text style={styles.productQuant}>{quantity}x</Text>
+          <Text style={styles.subtittle}>{quantity}x</Text>
           <Text style={styles.subtittle}>Unid. </Text>
-        <Text style={styles.productPrice}>{price}</Text>
-        <Text style={styles.subtittle}>Total </Text>
-          <Text style={styles.productAmout}>{amount}</Text>
+          <Text style={styles.subtittle}>R$ {price}</Text>
+          <Text style={styles.subtittle}>Total R$ {amount} </Text>
         </View>
         
         </TouchableOpacity>
@@ -65,10 +64,12 @@ const styles = StyleSheet.create({
   contentCard: {
     flex: 1,
     paddingHorizontal: 40,
-    gap: 10,
     flexDirection: 'row',
     marginTop: 10,
     justifyContent: 'space-between',
+  },
+  subtittle: {
+    color: '#303F5F',
   },
   icons: {
     color: '#76A24A',
