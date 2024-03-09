@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 export function ProductCard({ name, price, quantity, amount }) {
 

@@ -30,7 +30,10 @@ export function HomeScreen({ navigation }) {
       <View style={[styles.listItem, {backgroundColor}]}>
         <TouchableOpacity
           style={styles.containerContentList}
-          onPress={() => setSelectedId(item.id)}
+          onPress={() => {
+            setSelectedId(item.id)
+            navigation.navigate('ProductsListScreen', {name: item.title})
+          }}
           onPressOut={() => setSelectedId(null)}
         >
           <Text style={styles.listItemText}>{item.title}</Text>
@@ -39,7 +42,9 @@ export function HomeScreen({ navigation }) {
         </TouchableOpacity>
         
         <TouchableOpacity
-          onPress={() => setIsOptionsVisible(true)}
+          onPress={() => {
+            setIsOptionsVisible(true)
+          }}
         >
           <Icon
             name="ellipsis-vertical-outline"
@@ -119,7 +124,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#191D88',
     borderRadius: 6,
-    paddingVertical: 16,
+    paddingVertical: 14,
     paddingHorizontal: 44,
     alignSelf: 'flex-end',
     marginRight: 20,
@@ -129,5 +134,4 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 18,
   },
-  // Estilos para a barra de menu inferior podem ser adicionados aqui
 });
