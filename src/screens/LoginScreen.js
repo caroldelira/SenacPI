@@ -13,7 +13,7 @@ export function LoginScreen({ navigation }) {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    if (user === 'larissa' && password === '123') {
+    if (user === 'listou' && password === '123') {
       setUser('');
       setPassword('');
       navigation.navigate('Navigation')

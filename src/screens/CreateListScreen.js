@@ -1,11 +1,29 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
-export function CreateListScreen() {
+import { CustomHeader } from '../components/CustomHeader';
+
+export function CreateListScreen({ navigation }) {
   const [listName, setListName] = useState('');
 
   const handleCreateList = () => {
-    console.log('Criar lista com o nome:', listName);
+    if (listName === '') {
+      Alert.alert(
+        "Ooops",
+        "Inclua o nome da Lista para poder seguir.",
+        [
+          {
+            text: "Ok",
+            onPress: () => {},
+            style: 'default'
+          },
+        ]
+      )
+    } else {
+      navigation.navigate('ProductsListScreen', { name: listName });
+      setListName('');
+    }
+    
   };
 
   const handleReadQRCode = () => {
@@ -14,6 +32,7 @@ export function CreateListScreen() {
 
   return (
     <View style={styles.container}>
+      <CustomHeader back={() => navigation.goBack()} />
 
       <Text style={styles.title}>Criar nova lista</Text>
       <TextInput
