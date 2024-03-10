@@ -1,33 +1,69 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from "react-native";
 
-import { CustomHeader } from '../components/CustomHeader';
+import { CustomHeader } from "../components/CustomHeader";
+import api from "../services/api";
 
 export function CreateListScreen({ navigation }) {
-  const [listName, setListName] = useState('');
+  const [listName, setListName] = useState("");
 
   const handleCreateList = () => {
-    if (listName === '') {
-      Alert.alert(
-        "Ooops",
-        "Inclua o nome da Lista para poder seguir.",
-        [
-          {
-            text: "Ok",
-            onPress: () => {},
-            style: 'default'
-          },
-        ]
-      )
+    if (listName === "") {
+      Alert.alert("Ooops", "Inclua o nome da Lista para poder seguir.", [
+        {
+          text: "Ok",
+          onPress: () => {},
+          style: "default",
+        },
+      ]);
     } else {
-      navigation.navigate('ProductsListScreen', { name: listName });
-      setListName('');
+      requestNewList(() => {
+        navigation.navigate("ProductsListScreen", { name: listName });
+        setListName("");
+      });
     }
-    
+  };
+
+  const requestNewList = (onCreateList) => {
+    try {
+      api
+        .post(`listas`, { title: listName, date: new Date() })
+        .then((res) => {
+          const ret = res.data;
+          console.log(ret);
+          if (ret.status == "success") {
+            Alert.alert("Parabéns", ret.message, [
+              {
+                text: "Fechar",
+                // onPress: () => navigation.navigate("ProductListScreen"),
+              },
+            ]);
+            onCreateList();
+            return;
+          } else {
+            Alert.alert("Ixi!", ret.message, [
+              {
+                text: "Voltar",
+                onPress: () => {},
+                style: "default",
+              },
+            ]);
+            return;
+          }
+        })
+        .finally(() => {});
+    } catch {}
   };
 
   const handleReadQRCode = () => {
-    console.log('Ler NF via QRCode');
+    console.log("Ler NF via QRCode");
   };
 
   return (
@@ -42,12 +78,11 @@ export function CreateListScreen({ navigation }) {
         onChangeText={setListName}
       />
 
-        <View style={styles.containerButton}>
+      <View style={styles.containerButton}>
         <TouchableOpacity style={styles.button} onPress={handleCreateList}>
-            <Text style={styles.buttonText}>Criar lista</Text>
+          <Text style={styles.buttonText}>Criar lista</Text>
         </TouchableOpacity>
-        </View>
-
+      </View>
 
       <Text style={styles.orText}>ou</Text>
       <Text style={styles.subtitle}>Importar lista</Text>
@@ -57,10 +92,9 @@ export function CreateListScreen({ navigation }) {
 
       <View style={styles.containerButton}>
         <TouchableOpacity style={styles.buttonNF} onPress={handleReadQRCode}>
-            <Text style={styles.buttonTextNF}>Ler NF via QRCode</Text>
+          <Text style={styles.buttonTextNF}>Ler NF via QRCode</Text>
         </TouchableOpacity>
       </View>
-     
     </View>
   );
 }
@@ -86,57 +120,57 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 5,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 60,
   },
   containerButton: {
     alignItems: "center",
   },
   button: {
-    backgroundColor: '#191D88',
-    alignItems: 'center',
+    backgroundColor: "#191D88",
+    alignItems: "center",
     marginBottom: 16,
-    width: '50%',
+    width: "50%",
     borderRadius: 6,
     paddingVertical: 14,
     paddingHorizontal: 20,
   },
   buttonNF: {
-    backgroundColor: '#C8FA96',
-    alignItems: 'center',
+    backgroundColor: "#C8FA96",
+    alignItems: "center",
     marginBottom: 16,
-    width: '50%',
+    width: "50%",
     borderRadius: 6,
     paddingVertical: 14,
     paddingHorizontal: 20,
   },
   buttonTextNF: {
-    color: '#191D88',
+    color: "#191D88",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: "#FFFFFF",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   orText: {
-    color: '#191D88',
+    color: "#191D88",
     fontSize: 18,
     marginVertical: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   subtitle: {
     fontSize: 18,
-    color: '#191D88',
+    color: "#191D88",
     marginVertical: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   description: {
-    color: '#303F5F',
+    color: "#303F5F",
     fontSize: 14,
     marginBottom: 36,
     paddingHorizontal: 46,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });

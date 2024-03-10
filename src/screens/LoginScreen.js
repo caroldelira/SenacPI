@@ -6,31 +6,17 @@ import {
   Text,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from "react-native";
+import api from "../services/api";
 
 export function LoginScreen({ navigation }) {
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState("listou");
+  const [password, setPassword] = useState("123");
+  const [sending, setSending] = useState(false);
 
-  const handleLogin = () => {
-    if (user === 'listou' && password === '123') {
-      setUser('');
-      setPassword('');
-      navigation.navigate('Navigation')
-    } else if (user === 'larissa' && password !== '123') { 
-      Alert.alert(
-        "Ooops",
-        "A senha está incorreta, digite novamente.",
-        [
-          {
-            text: "Ok",
-            onPress: () => {},
-            style: 'default'
-          },
-        ]
-      )
-      setPassword('');
-    } else if (user === '' && password === '') { 
+  const handleLoginButton = () => {
+    if (user === "") {
       Alert.alert(
         "Eita!",
         "Precisamos identificar um usuário. Por favor informa um ou pode criar agora caso ainda não tenha, é super rápido.!",
@@ -38,33 +24,84 @@ export function LoginScreen({ navigation }) {
           {
             text: "Voltar",
             onPress: () => {},
-            style: 'default'
+            style: "default",
           },
           {
             text: "Criar Usuário",
-            onPress: () => navigation.navigate('SignUp')
-          }
-        ]
-      )
-      setPassword('');
-    } else {
-      Alert.alert(
-        "Ooops",
-        "Você ainda não tem esse usuário cadastrado no Listou, cadastre agora e aproveite todos os benefícios do seu Listou",
-        [
-          {
-            text: "Cancelar",
-            onPress: () => {},
-            style: 'cancel'
+            onPress: () => navigation.navigate("SignUp"),
           },
-          {
-            text: "Criar Usuário",
-            onPress: () => navigation.navigate('SignUp')
-          }
         ]
-      )
-      setUser('');
-      setPassword('');
+      );
+      return;
+    }
+
+    if (password === "") {
+      Alert.alert("Oxe!", "Tu esqueceu de colocar a senha.", [
+        {
+          text: "Voltar",
+          onPress: () => {},
+          style: "default",
+        },
+      ]);
+      return;
+    }
+
+    requestLogin();
+  };
+
+  const requestLogin = () => {
+    setSending(true);
+    try {
+      api
+        .get(`users/${user}`)
+        .then((res) => {
+          setSending(false);
+          const ret = res.data;
+          if (ret.length == 0) {
+            Alert.alert(
+              "Ooops",
+              "Parece que você ainda não tem esse usuário cadastrado no Listou, cadastre agora e aproveite todos os benefícios do seu Listou",
+              [
+                {
+                  text: "Cancelar",
+                  onPress: () => {},
+                  style: "cancel",
+                },
+                {
+                  text: "Criar Usuário",
+                  onPress: () => navigation.navigate("SignUp"),
+                },
+              ]
+            );
+            return;
+          }
+
+          const usr = ret[0];
+          console.log(usr);
+
+          if (usr.password !== password) {
+            Alert.alert("Ixi!", "Tu errou a senha.", [
+              {
+                text: "Voltar",
+                onPress: () => {},
+                style: "default",
+              },
+            ]);
+            return;
+          }
+
+          if (
+            usr.username === user.toLowerCase().trim() &&
+            usr.password === password
+          ) {
+            // setUser("");
+            // setPassword("");
+            navigation.navigate("Navigation");
+          }
+        })
+        .finally(() => {});
+    } catch {
+      setSending(false);
     }
   };
 
@@ -86,14 +123,15 @@ export function LoginScreen({ navigation }) {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleLogin}
-      >
-        <Text style={styles.buttonText}>Login</Text>
+      <TouchableOpacity style={styles.button} onPress={handleLoginButton}>
+        {sending ? (
+          <ActivityIndicator />
+        ) : (
+          <Text style={styles.buttonText}>Login</Text>
+        )}
       </TouchableOpacity>
       <View style={styles.footer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Recover')}>
+        <TouchableOpacity onPress={() => navigation.navigate("Recover")}>
           <Text style={styles.footerText}>Esqueci minha senha</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
