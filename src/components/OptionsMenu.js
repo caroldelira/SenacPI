@@ -35,13 +35,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
   },
   modalContent: {
     backgroundColor: '#F5F9FF',
-    borderRadius: 5,
     padding: 16,
-    elevation: 5,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
@@ -49,7 +47,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   modalItem: {
-    paddingVertical: 10,
+    paddingVertical: 20,
   },
   modalText: {
     color: '#303F5F',
