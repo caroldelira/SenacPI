@@ -11,8 +11,8 @@ import {
 import api from "../services/api";
 
 export function LoginScreen({ navigation }) {
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState("listou");
+  const [password, setPassword] = useState("123");
   const [sending, setSending] = useState(false);
 
   const handleLoginButton = () => {
