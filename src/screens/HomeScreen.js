@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import api from "../services/api";
+import { formatDateShortPT } from "../utils/dateUtil";
 
 export function HomeScreen({ navigation }) {
   const [lists, setLists] = useState([]);
@@ -52,15 +53,22 @@ export function HomeScreen({ navigation }) {
           onPressOut={() => setSelectedId(null)}
         >
           <Text style={styles.listItemText}>{item.title}</Text>
-          <Text style={styles.listItemDate}>{item.date}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => {
-            setIsOptionsVisible(true);
-          }}
-        >
-          <Icon name="ellipsis-vertical-outline" size={26} color="#76A24A" />
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text style={styles.listItemDate}>
+              {formatDateShortPT(item.date)}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setIsOptionsVisible(true);
+              }}
+            >
+              <Icon
+                name="ellipsis-vertical-outline"
+                size={26}
+                color="#76A24A"
+              />
+            </TouchableOpacity>
+          </View>
         </TouchableOpacity>
       </View>
     );
@@ -110,10 +118,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
   },
   listItem: {
+    // flex: 1,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: "#ffffff",
     padding: 20,
     marginVertical: 8,
@@ -122,10 +133,10 @@ const styles = StyleSheet.create({
   },
   listItemText: {
     color: "#303F5F",
+    // width: "100%",
   },
   listItemDate: {
     color: "#191D88",
-    marginLeft: 160,
   },
   button: {
     backgroundColor: "#191D88",
