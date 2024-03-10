@@ -12,11 +12,11 @@ import {
 import api from "../services/api";
 
 export function SignUpScreen({ navigation }) {
-  const [name, setName] = useState("Alana");
-  const [userName, setUserName] = useState("alana");
-  const [email, setEmail] = useState("alana@email.com");
-  const [password, setPassword] = useState("123");
-  const [confirmPassword, setConfirmPassword] = useState("123");
+  const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordChecked, setPasswordChecked] = useState(true);
 
   const [sending, setSending] = useState(false);
