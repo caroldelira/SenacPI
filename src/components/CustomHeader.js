@@ -1,9 +1,8 @@
-import React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React from "react";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-
-export function CustomHeader ({ back }) {
+export function CustomHeader({ back }) {
   return (
     <View style={styles.header}>
       <TouchableOpacity onPress={back}>
@@ -11,10 +10,10 @@ export function CustomHeader ({ back }) {
       </TouchableOpacity>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   header: {
-    height: 60,
+    height: 20,
   },
 });
