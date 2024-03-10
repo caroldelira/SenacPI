@@ -79,7 +79,7 @@ export function SignUpScreen({ navigation }) {
             Alert.alert("Parabéns", ret.message, [
               {
                 text: "Fechar",
-                onPress: () => navigation.navigate("Login"),
+                onPress: () => navigation.navigate("Success"),
               },
             ]);
             onSignupSuccess();

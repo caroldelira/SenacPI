@@ -90,7 +90,10 @@ export function LoginScreen({ navigation }) {
             return;
           }
 
-          if (usr.username === user && usr.password === password) {
+          if (
+            usr.username === user.toLowerCase().trim() &&
+            usr.password === password
+          ) {
             // setUser("");
             // setPassword("");
             navigation.navigate("Navigation");
