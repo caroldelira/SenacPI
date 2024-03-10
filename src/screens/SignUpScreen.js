@@ -1,59 +1,131 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
   TextInput,
-  Button,
   Text,
   TouchableOpacity,
   ScrollView,
   Alert,
+  ActivityIndicator,
 } from "react-native";
+import api from "../services/api";
 
 export function SignUpScreen({ navigation }) {
   const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordChecked, setPasswordChecked] = useState(true);
+
+  const [sending, setSending] = useState(false);
+
+  const checkPassword = () => {
+    return password !== "" && confirmPassword === password;
+  };
+
+  const canSignUp = () => {
+    return (
+      email !== "" &&
+      name !== "" &&
+      userName !== "" &&
+      password !== "" &&
+      confirmPassword !== "" &&
+      password === confirmPassword
+    );
+  };
 
   const handleSignUp = () => {
-    if (email === '' || name === '' || password === '' || confirmPassword === '') { 
-      Alert.alert(
-        "Opa Atenção!",
-        "Precisamos que preencha todos os campos!",
-        [
-          {
-            text: "Ok",
-            onPress: () => {},
-            style: 'default'
-          },
-        ]
-      )
+    if (
+      email === "" ||
+      name === "" ||
+      userName === "" ||
+      password === "" ||
+      confirmPassword === ""
+    ) {
+      Alert.alert("Opa Atenção!", "Precisamos que preencha todos os campos!", [
+        {
+          text: "Ok",
+          onPress: () => {},
+          style: "default",
+        },
+      ]);
     } else {
-     Alert.alert(
-        "Agora sim!!!",
-        "Conta criada com Sucesso!!! Pode curtir o Listou.",
-        [
-          {
-            text: "Ok",
-            onPress: () => navigation.navigate("Success"),
-          },
-        ]
-      )
-      setName('');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
+      requestSignUp(() => {
+        setName("");
+        setUserName("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+      });
     }
   };
+
+  const requestSignUp = (onSignupSuccess) => {
+    setSending(true);
+    try {
+      api
+        .post("users", {
+          name,
+          username: userName,
+          password,
+          email,
+        })
+        .then((res) => {
+          setSending(false);
+          const ret = res.data;
+          if (ret.status == "success") {
+            Alert.alert("Parabéns", ret.message, [
+              {
+                text: "Fechar",
+                onPress: () => navigation.navigate("Login"),
+              },
+            ]);
+            onSignupSuccess();
+            return;
+          } else {
+            Alert.alert("Ixi!", ret.message, [
+              {
+                text: "Voltar",
+                onPress: () => {},
+                style: "default",
+              },
+            ]);
+            return;
+          }
+        })
+        .finally(() => {});
+    } catch {
+      setSending(false);
+    }
+  };
+
+  useEffect(() => {
+    setPasswordChecked((previous) => {
+      previous = checkPassword();
+      return previous;
+    });
+  }, [password, confirmPassword]);
+
+  useEffect(() => {
+    console.log(passwordChecked);
+  }, [passwordChecked]);
 
   return (
     <ScrollView style={styles.containerScroll}>
       <View style={styles.container}>
         <Text style={styles.title}>Criar nova conta</Text>
 
-        <Text style={styles.label}>Qual será seu nome de Usuário?</Text>
+        <Text style={styles.label}>Qual é o seu nome?</Text>
         <TextInput style={styles.input} value={name} onChangeText={setName} />
+
+        <Text style={styles.label}>Qual será seu nome de Usuário?</Text>
+        <TextInput
+          style={styles.input}
+          value={userName}
+          onChangeText={setUserName}
+        />
 
         <Text style={styles.label}>Seu e-mail</Text>
         <TextInput
@@ -79,6 +151,9 @@ export function SignUpScreen({ navigation }) {
           onChangeText={setConfirmPassword}
           secureTextEntry
         />
+        {!passwordChecked && (
+          <Text style={styles.textPasswordValidate}>senhas não conferem</Text>
+        )}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={[styles.button, styles.seconderyButton]}
@@ -87,10 +162,18 @@ export function SignUpScreen({ navigation }) {
             <Text style={styles.seconderyButtonText}>Voltar</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.button, styles.buttonPrimary]}
+            style={[
+              styles.button,
+              canSignUp() ? styles.buttonPrimary : styles.buttonCanceled,
+            ]}
             onPress={handleSignUp}
+            disabled={sending || !canSignUp()}
           >
-            <Text style={styles.buttonText}>Próximo</Text>
+            {sending ? (
+              <ActivityIndicator />
+            ) : (
+              <Text style={styles.buttonText}>Próximo</Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>
@@ -149,6 +232,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#191D88",
   },
+  buttonCanceled: {
+    backgroundColor: "silver",
+  },
   buttonText: {
     color: "#FFFFFF",
     textAlign: "center",
@@ -156,5 +242,8 @@ const styles = StyleSheet.create({
   seconderyButtonText: {
     color: "#191D88",
     textAlign: "center",
+  },
+  textPasswordValidate: {
+    color: "red",
   },
 });
