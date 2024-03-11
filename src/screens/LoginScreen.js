@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import api from "../services/api";
 
+import { expo } from "../../app.json";
+
 export function LoginScreen({ navigation }) {
   const [user, setUser] = useState("listou");
   const [password, setPassword] = useState("123");
@@ -138,6 +140,7 @@ export function LoginScreen({ navigation }) {
           <Text style={styles.footerText}>Não tenho cadastro</Text>
         </TouchableOpacity>
       </View>
+      <Text style={styles.version}>update: {expo.update}</Text>
     </View>
   );
 }
@@ -187,5 +190,11 @@ const styles = StyleSheet.create({
     color: "#303F5F",
     marginTop: 15,
     fontSize: 14,
+  },
+  version: {
+    color: "silver",
+    marginTop: 15,
+    fontSize: 14,
+    textAlign: "center",
   },
 });
