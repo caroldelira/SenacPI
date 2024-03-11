@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button } from "react-native";
 import { CameraView, Camera } from "expo-camera/next";
 import { ScanCodeModal } from "../components/ScanCodeModal";
+import { createNewList } from "../services/lists";
 
 export function QRCodeScannerScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -29,9 +30,10 @@ export function QRCodeScannerScreen({ navigation }) {
     return <Text>Sem acesso à câmera.</Text>;
   }
 
-  const handleSaveList = () => {
+  const handleSaveList = (listName) => {
     setScanned(false);
     // navigation.navigate("Home");
+    createNewList(listName);
   };
 
   const handleCloseModal = () => {
