@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-export function ProductCard({ name, price, quantity, amount }) {
-
-  const [isSelected, setIsSelected] = useState(false);
+export function ProductCard({ id, name, price, quantity, amount, selected, onProductSelection }) {
 
   return (
-    <View style={[styles.card, isSelected && styles.cardSelected]}>
+    <View style={[styles.card, selected && styles.cardSelected]}>
       <TouchableOpacity 
-        onPress={() => setIsSelected(!isSelected)}
+        onPress={() => onProductSelection(id)}
       > 
         <View style={styles.headerCard}>
-          <Text style={styles.checkbox}>{isSelected ? '✓' : ''}</Text>
+          <Text style={styles.checkbox}>{selected ? '✓' : ''}</Text>
           <Text style={styles.productName}>{name}</Text>
           <TouchableOpacity>
             <Ionicons style={styles.icons} name="create-outline" size={20} color="black" />

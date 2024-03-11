@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
+import { CustomHeader } from '../components/CustomHeader';
 
 const reportData = {
   labels: ["Carnes", "Limpeza", "Laticínios"],
@@ -21,9 +22,13 @@ const chartConfig = {
 };
 
 
-export function ReportScreen() {
+export function ReportScreen({navigation}) {
   return (
     <ScrollView style={styles.container}>
+      <View style={styles.header} >
+        <CustomHeader back={() => navigation.goBack()} />
+      </View>
+      
       <Text style={styles.title}>Relatórios</Text>
       {/* Botões dos meses */}
       <View style={styles.monthsContainer}>
@@ -78,6 +83,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 60,
     paddingHorizontal: 10,
+  },
+  header: {
+    paddingLeft: 10,
   },
   containerText: {
     textAlign: 'left',
