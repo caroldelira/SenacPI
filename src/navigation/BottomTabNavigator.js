@@ -6,9 +6,6 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { HomeScreen } from "../screens/HomeScreen";
 import { CalculatorScreen } from "../screens/CalculatorScreen";
 import { ReportScreen } from "../screens/ReportScreen";
-
-import { HomeScreen } from "../screens/HomeScreen";
-import { CalculatorScreen } from "../screens/CalculatorScreen";
 import { QRCodeScannerScreen } from "../screens/QRCodeScannerScreen";
 
 const Tab = createBottomTabNavigator();

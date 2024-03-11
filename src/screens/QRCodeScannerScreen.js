@@ -29,20 +29,6 @@ export function QRCodeScannerScreen() {
 
   return (
     <View style={styles.container}>
-      {/* <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        // style={StyleSheet.absoluteFillObject}
-        style={{
-          //   position: "absolute",
-          flex: 1,
-          width: "100%",
-          height: "50%",
-          //   top: 50,
-          //   left: 20,
-          //   right: 20,
-          //   bottom: 50,
-        }}
-      /> */}
       <CameraView
         onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
         barcodeScannerSettings={
@@ -51,16 +37,6 @@ export function QRCodeScannerScreen() {
           }
         }
         style={StyleSheet.absoluteFillObject}
-        // style={{
-        //   //   position: "absolute",
-        //   flex: 1,
-        //   width: "100%",
-        //   height: "50%",
-        //   //   top: 50,
-        //   //   left: 20,
-        //   //   right: 20,
-        //   //   bottom: 50,
-        // }}
       />
       {scanned && (
         <Button
