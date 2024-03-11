@@ -3,7 +3,7 @@
     "name": "listou",
     "slug": "listou",
     "version": "1.0.0",
-    "update": "240311.1",
+    "update": "240311.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",

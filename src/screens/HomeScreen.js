@@ -50,8 +50,7 @@ export function HomeScreen({ navigation }) {
   }, []);
 
   const handleDeleteList = (listId) => {
-
-    const nameList = lists.find(list => list.id === listId);
+    const nameList = lists.find((list) => list.id === listId);
 
     Alert.alert(
       "Confirmar exclusão",
@@ -59,12 +58,12 @@ export function HomeScreen({ navigation }) {
       [
         {
           text: "Cancelar",
-          onPress: () => { },
+          onPress: () => {},
           style: "cancel",
         },
-      {
-        text: "Excluir",
-        onPress: async () => { 
+        {
+          text: "Excluir",
+          onPress: async () => {
             setSending(true);
             try {
               const responseMessage = await deleteList(listId);
@@ -80,23 +79,25 @@ export function HomeScreen({ navigation }) {
               setSending(false);
               setIsOptionsVisible(false);
             }
-          }
-        }
+          },
+        },
       ]
-    )
-  }
+    );
+  };
 
   const handleShareList = () => {
-    return(
-    Alert.alert(
+    return Alert.alert(
       "Opa!!",
       "Ainda não ativamos essa funcionalidade. Mas, já já vai estar tudo certinho pra você compartilhar com quem quiser!!",
-      [{
-      text: 'Fechar'
-    }]))
-  }
+      [
+        {
+          text: "Fechar",
+        },
+      ]
+    );
+  };
 
-  const handleUpdateLists = async (novoNome) => { 
+  const handleUpdateLists = async (novoNome) => {
     try {
       await updateList(selectedId, novoNome);
       Alert.alert("Sucesso!", "Nome da lista atualizado com sucesso", [
@@ -112,7 +113,7 @@ export function HomeScreen({ navigation }) {
       setSending(false);
       setIsOptionsVisible(false);
     }
-  }
+  };
 
   const handleCloseModal = () => {
     setIsModalVisible(false);
@@ -120,7 +121,7 @@ export function HomeScreen({ navigation }) {
 
   const renderItem = ({ item }) => {
     const backgroundColor = item.id === selectedId ? "#C2F970" : "#FFFFFF";
-    
+
     return (
       <View style={[styles.listItem, { backgroundColor }]}>
         <TouchableOpacity
@@ -135,7 +136,9 @@ export function HomeScreen({ navigation }) {
             }
           }}
         >
-          <Text style={styles.listItemText}>{item.title}</Text>
+          <View>
+            <Text style={styles.listItemText}>{item.title}</Text>
+          </View>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text style={styles.listItemDate}>
               {formatDateShortPT(item.date)}
@@ -163,22 +166,24 @@ export function HomeScreen({ navigation }) {
       <Text style={styles.title}>Minhas listas</Text>
       <FlatList
         data={lists}
-        renderItem={({ item }) => renderItem({ item, selectedId, setSelectedId })}
+        renderItem={({ item }) =>
+          renderItem({ item, selectedId, setSelectedId })
+        }
         keyExtractor={(item) => item.id}
       />
 
-        <OptionsMenu
-          visible={isOptionsVisible}
-          onClose={() => setIsOptionsVisible(false)}
-          onDelete={() => {
-            handleDeleteList(selectedId);
-          }}
-          onRename={() => {
-            setIsModalVisible(true)
-            setIsOptionsVisible(false)
-          }}
-          onShare={handleShareList}
-        />
+      <OptionsMenu
+        visible={isOptionsVisible}
+        onClose={() => setIsOptionsVisible(false)}
+        onDelete={() => {
+          handleDeleteList(selectedId);
+        }}
+        onRename={() => {
+          setIsModalVisible(true);
+          setIsOptionsVisible(false);
+        }}
+        onShare={handleShareList}
+      />
 
       <EditListNameModal
         isVisible={isModalVisible}
@@ -245,5 +250,5 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#FFFFFF",
     fontSize: 18,
-  }
+  },
 });

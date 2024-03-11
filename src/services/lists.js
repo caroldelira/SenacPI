@@ -4,10 +4,13 @@ import api from "./api";
 
 export async function createNewList(listName) {
   try {
-    const response = await api.post('/listas', { title: listName, date: new Date() })
+    const response = await api.post("/listas", {
+      title: listName,
+      date: new Date(),
+    });
     return response.data;
-  } catch (err) { 
-    throw new Error('Erro ao criar nova lista');
+  } catch (err) {
+    throw new Error("Erro ao criar nova lista");
   }
 }
 
@@ -17,10 +20,9 @@ export async function deleteList(listId) {
   try {
     await api.delete(`/listas/${listId}`);
     return "Lista deletada com sucesso";
-
-  } catch (err) { 
-    console.error('Erro ao deletar lista:', err);
-    throw new Error('Erro ao deletar lista');
+  } catch (err) {
+    console.error("Erro ao deletar lista:", err);
+    throw new Error("Erro ao deletar lista");
   }
 }
 
@@ -28,9 +30,9 @@ export async function deleteList(listId) {
 
 export async function updateList(listId, newtitle) {
   try {
-    await api.put(`listas/${listId}`, { title: newtitle });
+    await api.put(`listas/`, { id: listId, title: newtitle });
     return "Lista atualizada com Sucesso";
-  } catch (e) { 
+  } catch (e) {
     return "Error: " + e.message;
   }
 }
