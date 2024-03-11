@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -15,6 +15,10 @@ import { CustomTabBar } from "../navigation/CustomTabBar";
 
 export function ProductsList({ navigation, route }) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [totalAmount, setTotalAmount] = useState(47.40);
+  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [filter, setFilter] = useState('todos');
+  const [filteredList, setFilteredList] = useState([]);
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: "",
@@ -23,21 +27,21 @@ export function ProductsList({ navigation, route }) {
   const [productsData, setProductsData] = useState([
     {
       id: "1",
-      name: "Arroz de alguma marca outra marca",
-      price: "4.00",
+      name: "Arroz Tio João",
+      price: "5.60",
       quantity: 3,
-      amount: "12,00",
+      amount: "16.80",
     },
     {
       id: "2",
-      name: "Arroz de alguma marca",
-      price: "4.00",
-      quantity: 3,
-      amount: "12,00",
+      name: "Feijão Preto Fortaleza",
+      price: "9.30",
+      quantity: 2,
+      amount: "18.60",
     },
     {
       id: "3",
-      name: "Arroz de alguma marca",
+      name: "Açucar Cristal",
       price: "4.00",
       quantity: 3,
       amount: "12,00",
@@ -55,9 +59,49 @@ export function ProductsList({ navigation, route }) {
       ...productsData,
       { ...newProduct, amount: totalAmount, id: Date.now().toString() },
     ]);
+    setTotalAmount((previous) => previous + parseFloat(totalAmount));
     setNewProduct({ name: "", price: "", quantity: "" });
     setModalVisible(false);
   };
+
+  const handleProductSelection = (productId) => {  
+
+    const isSelected = selectedProducts.includes(productId);
+  
+    if (isSelected) {
+      setSelectedProducts(selectedProducts.filter((id) => id !== productId));
+    } else {
+      setSelectedProducts([...selectedProducts, productId]);
+    }
+    
+  };
+
+  useEffect(() => {
+    filterByChecked(); 
+  }, [filter]);
+
+  const calculateCartAmount = () => {
+    let totalAmount = 0.00;
+    productsData.forEach((product) => {
+      if (selectedProducts.includes(product.id)) {
+        totalAmount += parseFloat(product.amount);
+      }
+    });
+    return totalAmount.toFixed(2);
+  };
+
+  const filterByChecked = () => {
+
+    if (filter ===  'marcados') {
+      const filteredList = productsData.filter((product) => selectedProducts.includes(product.id));
+      return setFilteredList(filteredList);
+      
+    } else if ( filter === 'faltantes') {
+      const filteredList = productsData.filter((product) => !selectedProducts.includes(product.id));
+      return setFilteredList(filteredList);
+    } 
+  };
+
 
   return (
     <>
@@ -69,31 +113,49 @@ export function ProductsList({ navigation, route }) {
 
           <View style={styles.containerButton}>
             <TouchableOpacity
-              style={styles.button}
-              onPress={() => console.log("Todos os produtos")}
+              style={filter === 'todos' ? styles.buttonActive : styles.button}
+              onPress={() => {
+                setFilter('todos');
+              }}
             >
-              <Text style={styles.buttonText}>Todos</Text>
+              <Text style={filter === 'todos' ? styles.buttonTextActive : styles.buttonText}>Todos</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.button}
-              onPress={() => console.log("Produtos faltantes")}
+              style={filter === 'faltantes' ? styles.buttonActive : styles.button}
+              onPress={() => {
+                setFilter('faltantes');
+              }}
             >
-              <Text style={styles.buttonText}>Faltantes</Text>
+              <Text style={filter === 'faltantes' ? styles.buttonTextActive : styles.buttonText}>Faltantes</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.button}
-              onPress={() => console.log("Produtos marcados")}
+              style={filter === 'marcados' ? styles.buttonActive : styles.button}
+              onPress={() => {
+                setFilter('marcados');
+                filterByChecked();
+              }}
             >
-              <Text style={styles.buttonText}>Carrinho</Text>
+              <Text style={filter === 'marcados' ? styles.buttonTextActive : styles.buttonText}>Carrinho</Text>
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.subtitleAmount}>Valor dos itens R$ 893,46</Text>
+          <Text style={styles.subtitleAmount}>Valor dos itens R$ {(totalAmount).toFixed(2)}</Text>
           <Text style={styles.subtitleCardValue}>
-            Valor dos itens no carrinho R$ 893,46
+            Valor dos itens no carrinho R$ {calculateCartAmount()}
           </Text>
 
-          {productsData.map((item) => (
+          {filter !== 'todos' && filteredList.length > 0 ? filteredList.map((item) => (
+             <ProductCard
+             key={item.id}
+             id={item.id}
+             name={item.name}
+             price={item.price}
+             quantity={item.quantity}
+             amount={item.amount}
+             selected={selectedProducts.includes(item.id)}
+             onProductSelection={handleProductSelection}
+           />
+          )) : productsData.map((item) => (
             <ProductCard
               key={item.id}
               id={item.id}
@@ -101,8 +163,11 @@ export function ProductsList({ navigation, route }) {
               price={item.price}
               quantity={item.quantity}
               amount={item.amount}
+              selected={selectedProducts.includes(item.id)}
+              onProductSelection={handleProductSelection}
             />
           ))}
+      
         </ScrollView>
 
         <TouchableOpacity
@@ -184,19 +249,26 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10,
-    marginTop: 10,
+    marginBottom: 20,
+    marginTop: 20,
     textAlign: "center",
     color: "#191D88",
   },
   containerButton: {
     flexDirection: "row",
     justifyContent: "center",
-
     gap: 20,
   },
   button: {
     backgroundColor: "#76A24A",
+    borderRadius: 5,
+    padding: 10,
+    width: "30%",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  buttonActive: {
+    backgroundColor: "#C8FA96",
     borderRadius: 5,
     padding: 10,
     width: "30%",
@@ -208,6 +280,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  buttonTextActive: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#191D88",
+  },
   subtitleAmount: {
     fontSize: 18,
     color: "#191D88",
@@ -218,6 +295,7 @@ const styles = StyleSheet.create({
     color: "#76A24A",
     textAlign: "center",
     marginTop: 10,
+    marginBottom: 10,
   },
   addButton: {
     backgroundColor: "#191D88",

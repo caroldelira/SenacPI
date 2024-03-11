@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   },
   version: {
     color: "silver",
-    marginTop: 15,
+    marginTop: 65,
     fontSize: 14,
     textAlign: "center",
   },
