@@ -26,9 +26,9 @@ export async function deleteList(listId) {
 
 /* UPDATE */
 
-export async function updateList(listId, title) {
+export async function updateList(listId, newtitle) {
   try {
-    await api.put(`listas/{listId}`, { title: newTitle });
+    await api.put(`listas/${listId}`, { title: newtitle });
     return "Lista atualizada com Sucesso";
   } catch (e) { 
     return "Error: " + e.message;

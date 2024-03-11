@@ -43,16 +43,19 @@ export function HomeScreen({ navigation }) {
 
   useEffect(() => {
     requestListas();
-  }, []);
+  }, [lists]);
 
   useEffect(() => {
     return () => setSelectedId(null);
   }, []);
 
   const handleDeleteList = (listId) => {
+
+    const nameList = lists.find(list => list.id === listId);
+
     Alert.alert(
       "Confirmar exclusão",
-      "Você deseja realmente excluir essa lista?",
+      `Você deseja realmente excluir a lista: ${nameList.title} ?`,
       [
         {
           text: "Cancelar",
@@ -65,7 +68,6 @@ export function HomeScreen({ navigation }) {
             setSending(true);
             try {
               const responseMessage = await deleteList(listId);
-              console.log(responseMessage, 'mensagem');
               Alert.alert("Parabéns", responseMessage, [
                 {
                   text: "Fechar",
@@ -118,7 +120,7 @@ export function HomeScreen({ navigation }) {
 
   const renderItem = ({ item }) => {
     const backgroundColor = item.id === selectedId ? "#C2F970" : "#FFFFFF";
-
+    
     return (
       <View style={[styles.listItem, { backgroundColor }]}>
         <TouchableOpacity
@@ -127,7 +129,11 @@ export function HomeScreen({ navigation }) {
             setSelectedId(item.id);
             navigation.navigate("ProductsListScreen", { name: item.title });
           }}
-          onPressOut={() => setSelectedId(null)}
+          onPressOut={() => {
+            if (!isOptionsVisible) {
+              setSelectedId(null);
+            }
+          }}
         >
           <Text style={styles.listItemText}>{item.title}</Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -137,6 +143,7 @@ export function HomeScreen({ navigation }) {
             <TouchableOpacity
               onPress={() => {
                 setIsOptionsVisible(true);
+                setSelectedId(item.id);
               }}
             >
               <Icon
@@ -147,20 +154,6 @@ export function HomeScreen({ navigation }) {
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
-
-        <OptionsMenu
-          visible={isOptionsVisible}
-          onClose={() => setIsOptionsVisible(false)}
-          onDelete={() => {
-            setSelectedId(item.id);
-            handleDeleteList(item.id);
-          }}
-          onRename={() => {
-            setIsModalVisible(true)
-            setIsOptionsVisible(false)
-          }}
-          onShare={handleShareList}
-        />
       </View>
     );
   };
@@ -170,9 +163,22 @@ export function HomeScreen({ navigation }) {
       <Text style={styles.title}>Minhas listas</Text>
       <FlatList
         data={lists}
-        renderItem={renderItem}
+        renderItem={({ item }) => renderItem({ item, selectedId, setSelectedId })}
         keyExtractor={(item) => item.id}
       />
+
+        <OptionsMenu
+          visible={isOptionsVisible}
+          onClose={() => setIsOptionsVisible(false)}
+          onDelete={() => {
+            handleDeleteList(selectedId);
+          }}
+          onRename={() => {
+            setIsModalVisible(true)
+            setIsOptionsVisible(false)
+          }}
+          onShare={handleShareList}
+        />
 
       <EditListNameModal
         isVisible={isModalVisible}
