@@ -96,7 +96,7 @@ export function LoginScreen({ navigation }) {
           ) {
             // setUser("");
             // setPassword("");
-            navigation.navigate("Navigation");
+            navigation.navigate("Success");
           }
         })
         .finally(() => {});
