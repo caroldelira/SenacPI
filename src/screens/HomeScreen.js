@@ -31,6 +31,7 @@ export function HomeScreen({ navigation }) {
         .get("listas/")
         .then((res) => {
           const ret = res.data;
+          console.log("listas", ret);
           setLists(ret);
         })
         .finally(() => {
@@ -43,7 +44,7 @@ export function HomeScreen({ navigation }) {
 
   useEffect(() => {
     requestListas();
-  }, [lists]);
+  }, []);
 
   useEffect(() => {
     return () => setSelectedId(null);
@@ -190,13 +191,18 @@ export function HomeScreen({ navigation }) {
         onSave={handleUpdateLists}
         onClose={handleCloseModal}
       />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => requestListas()}>
+          <Text style={styles.buttonText}>Atualizar</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("ListScreen")}
-      >
-        <Text style={styles.buttonText}>+ Lista nova</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("ListScreen")}
+        >
+          <Text style={styles.buttonText}>+ Lista nova</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -238,13 +244,27 @@ const styles = StyleSheet.create({
   listItemDate: {
     color: "#191D88",
   },
+  buttonContainer: {
+    // flex: 1,
+    // width: "100%",
+    flexDirection: "row",
+    paddingVertical: 14,
+    paddingHorizontal: 10,
+    alignItems: "center",
+    justifyContent: "space-between",
+    // alignSelf: "flex-end",
+    marginHorizontal: 20,
+    // marginVertical: 20,
+  },
   button: {
+    width: "45%",
     backgroundColor: "#191D88",
     borderRadius: 6,
     paddingVertical: 14,
-    paddingHorizontal: 44,
-    alignSelf: "flex-end",
-    marginRight: 20,
+    paddingHorizontal: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    // marginRight: 20,
     marginVertical: 20,
   },
   buttonText: {

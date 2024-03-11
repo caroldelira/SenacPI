@@ -6,10 +6,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  ScrollView,
 } from "react-native";
 
 import { CustomHeader } from "../components/CustomHeader";
-import { createNewList } from '../services/lists';
+import { createNewList } from "../services/lists";
 
 export function CreateListScreen({ navigation }) {
   const [listName, setListName] = useState("");
@@ -23,10 +24,10 @@ export function CreateListScreen({ navigation }) {
           style: "default",
         },
       ]);
-      } else {
+    } else {
       createNewList(listName)
         .then((response) => {
-          if (response.status === 'success') {
+          if (response.status === "success") {
             Alert.alert("Parabéns", response.message, [
               {
                 text: "Fechar",
@@ -38,53 +39,55 @@ export function CreateListScreen({ navigation }) {
             Alert.alert("Ixi!", ret.message, [
               {
                 text: "Voltar",
-                onPress: () => { },
+                onPress: () => {},
                 style: "default",
               },
             ]);
           }
         })
-      .catch((err) => { 
-      console.error('Erro ao criar uma nova lista:', err.message);
-      Alert.alert("Erro", "Houve um erro ao criar uma nova lista.");
-      }) 
+        .catch((err) => {
+          console.error("Erro ao criar uma nova lista:", err.message);
+          Alert.alert("Erro", "Houve um erro ao criar uma nova lista.");
+        });
     }
   };
 
   const handleReadQRCode = () => {
-    console.log("Ler NF via QRCode");
+    navigation.navigate("QRcode");
   };
 
   return (
-    <View style={styles.container}>
-      <CustomHeader back={() => navigation.goBack()} />
+    <ScrollView>
+      <View style={styles.container}>
+        <CustomHeader back={() => navigation.goBack()} />
 
-      <Text style={styles.title}>Criar nova lista</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Insira o nome da lista"
-        value={listName}
-        onChangeText={setListName}
-      />
+        <Text style={styles.title}>Criar nova lista</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Insira o nome da lista"
+          value={listName}
+          onChangeText={setListName}
+        />
 
-      <View style={styles.containerButton}>
-        <TouchableOpacity style={styles.button} onPress={handleCreateList}>
-          <Text style={styles.buttonText}>Criar lista</Text>
-        </TouchableOpacity>
+        <View style={styles.containerButton}>
+          <TouchableOpacity style={styles.button} onPress={handleCreateList}>
+            <Text style={styles.buttonText}>Criar lista</Text>
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.orText}>ou</Text>
+        <Text style={styles.subtitle}>Importar lista</Text>
+        <Text style={styles.description}>
+          Você pode ler o QRCode de uma NF e criar uma lista a partir dela.
+        </Text>
+
+        <View style={styles.containerButton}>
+          <TouchableOpacity style={styles.buttonNF} onPress={handleReadQRCode}>
+            <Text style={styles.buttonTextNF}>Ler NF via QRCode</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-
-      <Text style={styles.orText}>ou</Text>
-      <Text style={styles.subtitle}>Importar lista</Text>
-      <Text style={styles.description}>
-        Você pode ler o QRCode de uma NF e criar uma lista a partir dela.
-      </Text>
-
-      <View style={styles.containerButton}>
-        <TouchableOpacity style={styles.buttonNF} onPress={handleReadQRCode}>
-          <Text style={styles.buttonTextNF}>Ler NF via QRCode</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -163,4 +166,3 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-
