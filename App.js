@@ -11,6 +11,7 @@ import { RecoverPassword } from './src/screens/RecoverPassword';
 import { CreateListScreen } from './src/screens/CreateListScreen';
 import { ProductsList } from './src/screens/ProductsList';
 import { CalculatorScreen } from './src/screens/CalculatorScreen';
+import { ReportScreen } from './src/screens/ReportScreen';
 
 const Stack = createStackNavigator();
 
@@ -67,6 +68,13 @@ export default function App() {
         <Stack.Screen
           name="CalculatorScreen"
           component={CalculatorScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ReportScreen"
+          component={ReportScreen}
           options={{
             headerShown: false,
           }}

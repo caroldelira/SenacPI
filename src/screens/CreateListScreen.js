@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 import { CustomHeader } from "../components/CustomHeader";
-import api from "../services/api";
+import { createNewList } from '../services/lists';
 
 export function CreateListScreen({ navigation }) {
   const [listName, setListName] = useState("");
@@ -23,43 +23,32 @@ export function CreateListScreen({ navigation }) {
           style: "default",
         },
       ]);
-    } else {
-      requestNewList(() => {
-        navigation.navigate("ProductsListScreen", { name: listName });
-        setListName("");
-      });
-    }
-  };
-
-  const requestNewList = (onCreateList) => {
-    try {
-      api
-        .post(`listas`, { title: listName, date: new Date() })
-        .then((res) => {
-          const ret = res.data;
-          console.log(ret);
-          if (ret.status == "success") {
-            Alert.alert("Parabéns", ret.message, [
+      } else {
+      createNewList(listName)
+        .then((response) => {
+          if (response.status === 'success') {
+            Alert.alert("Parabéns", response.message, [
               {
                 text: "Fechar",
-                // onPress: () => navigation.navigate("ProductListScreen"),
               },
             ]);
-            onCreateList();
-            return;
+            navigation.navigate("ProductsListScreen", { name: listName });
+            setListName("");
           } else {
             Alert.alert("Ixi!", ret.message, [
               {
                 text: "Voltar",
-                onPress: () => {},
+                onPress: () => { },
                 style: "default",
               },
             ]);
-            return;
           }
         })
-        .finally(() => {});
-    } catch {}
+      .catch((err) => { 
+      console.error('Erro ao criar uma nova lista:', err.message);
+      Alert.alert("Erro", "Houve um erro ao criar uma nova lista.");
+      }) 
+    }
   };
 
   const handleReadQRCode = () => {
@@ -174,3 +163,4 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+
