@@ -1,4 +1,40 @@
-# LISTOU - PROJETO INTEGRADOR SENAC
+# LISTOU - Front-End (versão mobile)
+
+## Desenvolvedor: Afonso Lima (Desenvolvedor Web e Mobile)
+
+## Contato: <https://github.com/afonsolimajr>
+
+## Desenvolvedor: Willian Valentim (DevSecOps)
+
+## Contato: <https://github.com/w4lentim>
+
+## Desenvolvedora: Ana Carolina Bezerra de Lira Vasconcelos (Desenvolvedora Front-End e UX/UI)
+
+## Contato: <https://github.com/caroldelira>
+
+## Desenvolvedor: Paulo Fernando Oliveira Lins
+
+## Contato: <https://github.com/pauloemc2> (Desenvolvedor Python)
+
+Desenvolvimento Front-end para o projeto nomeado "listou".
+
+### Descrição e proposta do listou:
+O projeto Listou tem como objetivo, ser um aplicativo para dispositivos móveis com o intuito de realizar
+listagens, consultas e auxiliar seus clientes na organização de suas compras e na economia financeira.
+
+### Processo de desenvolvimento do aplicativo:
+- [ ] 1. Construção da API Base;
+- [ ] 2. Publicação do Projeto na Vercel;
+- [ ] 3. Desenvolvimento das Funcionalidades;
+- [ ] 4. Integração com Firebase;
+- [ ] 5. Testes Locais e Inserção de Dados;
+- [ ] 6. Validação e Busca de Dados via API;
+- [ ] 7. Implementação da Autenticação de Rotas;
+
+## Ferramentas utilizadas no desenvolvimento Front-End do listou:
+- 1. React Native: Framework para o desenvolvimento de aplicativos móveis multiplataforma;
+- 2. Firebase: Plataforma de desenvolvimento de aplicativos móveis e web, utilizada para autenticação de usuários e armazenamento de dados em tempo real;
+- 3. API REST: Desenvolvida em Nest.js, fornece os serviços necessários para o aplicativo, como criação, edição e exclusão de listas de compras.
 
 ## COMO GERAR UM NOVO APK
 
