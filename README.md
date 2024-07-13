@@ -22,6 +22,20 @@ Desenvolvimento Front-end para o projeto nomeado "listou".
 O projeto Listou tem como objetivo, ser um aplicativo para dispositivos móveis com o intuito de realizar
 listagens, consultas e auxiliar seus clientes na organização de suas compras e na economia financeira.
 
+### Créditos do Projeto
+Todo o estudo de UX e a parte inicial de UI do Projeto Listou foi desenvolvido em grupo na mentoria do Design Lab promovida pela equipe do Guia UX Design.
+Onde participaram os Designers:
+
+## Ana Carolina Vasconcelos <https://www.linkedin.com/in/ana-carolina-vasconcelos-510739183/>
+## Italo Bomfim <https://www.linkedin.com/in/italo-bomfim-412590250/>
+## Luiz Soares Junior <https://www.linkedin.com/in/luiz-soares-junior/>
+## Naila Lorena Correia <https://www.linkedin.com/in/nailalorenacorreia/>
+## Tâmara Cedraz <https://www.linkedin.com/in/tamaracedraz/>
+
+## Mentor - Felipe Leite <https://www.linkedin.com/in/felbart/>
+
+Nós como estudo do Projeto final do curso de Análise e Desenvolvimento de Sistemas do Senac, desenvolvemos um protótipo navegável desse projeto, finalizamos as telas e incluímos toda a parte de front-end e back-end. 
+
 ### Processo de desenvolvimento do aplicativo:
 - [ ] 1. Construção da API Base;
 - [ ] 2. Publicação do Projeto na Vercel;
