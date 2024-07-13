@@ -1,4 +1,4 @@
-# LISTOU - Front-End (versão mobile)
+# LISTOU
 
 ## Desenvolvedor: Afonso Lima (Desenvolvedor Web e Mobile)
 
